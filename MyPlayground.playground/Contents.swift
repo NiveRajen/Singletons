@@ -48,6 +48,8 @@ struct structSingleton {
     var isLoading = false
     
     @MainActor static var shared = structSingleton()
+    
+    private init() {}
 }
 
 
@@ -58,3 +60,25 @@ print(structSingleton.shared.isLoading)// the value here will not be changed her
 
 structSingleton.shared.isLoading = true //changing sharedinstance directly
 print(structSingleton.shared.isLoading)
+
+
+//structSingleton.shared = structSingleton() // We should not do this as it will break the architecture and there should be only one instance of the shared instance throughout the application
+
+
+//class Singleton
+class classSingleton {
+    var isLoading = false
+    
+    @MainActor static var shared = classSingleton()
+    
+    private init() {}
+}
+
+
+var localReference = classSingleton.shared
+localReference.isLoading = true //localReference will be affected as class is a reference type
+
+print(classSingleton.shared.isLoading)// the value here will be changed here,
+
+classSingleton.shared.isLoading = true //changing sharedinstance directly
+print(classSingleton.shared.isLoading)
