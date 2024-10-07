@@ -66,10 +66,10 @@ print(structSingleton.shared.isLoading)
 
 
 //class Singleton
-class classSingleton {
+final class classSingleton {
     var isLoading = false
     
-    @MainActor static var shared = classSingleton()
+    @MainActor static let shared = classSingleton()
     
     private init() {}
 }
