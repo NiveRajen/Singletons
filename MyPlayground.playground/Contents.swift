@@ -42,7 +42,7 @@ RestaurantManager.shared.getData { _ in
     print("Received items")
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------------
 //Struct Singleton
 struct structSingleton {
     var isLoading = false
@@ -64,7 +64,7 @@ print(structSingleton.shared.isLoading)
 
 //structSingleton.shared = structSingleton() // We should not do this as it will break the architecture and there should be only one instance of the shared instance throughout the application
 
-
+//----------------------------------------------------------------------------------------------------------------------------
 //class Singleton
 final class classSingleton {
     var isLoading = false
@@ -82,3 +82,29 @@ print(classSingleton.shared.isLoading)// the value here will be changed here,
 
 classSingleton.shared.isLoading = true //changing sharedinstance directly
 print(classSingleton.shared.isLoading)
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+class EagerSingleton {
+    @MainActor static let shared = EagerSingleton()
+    
+    private init() {
+        // Initialization code here
+    }
+}
+
+
+
+class LazySingleton {
+    @MainActor static let shared: LazySingleton = {
+        let instance = LazySingleton()
+        // Additional setup if needed
+        return instance
+    }()
+    
+    private init() {
+        // Initialization code here
+    }
+}
+//----------------------------------------------------------------------------------------------------------------------------
+
