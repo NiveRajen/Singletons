@@ -107,4 +107,46 @@ class LazySingleton {
     }
 }
 //----------------------------------------------------------------------------------------------------------------------------
+//Protocol Abstraction
+protocol DatabaseServiceProtocol {
+    func fetchData() -> [String]
+}
 
+class DatabaseService: DatabaseServiceProtocol {
+    func fetchData() -> [String] {
+        // Real implementation
+        return ["Data1", "Data2"]
+    }
+}
+
+class DatabaseManager {
+    @MainActor static let shared = DatabaseManager()
+    private var dbService: DatabaseServiceProtocol?
+
+    private init() {}
+
+    func configure(with service: DatabaseServiceProtocol) {
+        self.dbService = service
+    }
+
+    func fetchData() -> [String]? {
+        return dbService?.fetchData()
+    }
+}
+
+
+//Mock data for protocol Abstraction
+class MockDatabaseService: DatabaseServiceProtocol {
+    func fetchData() -> [String] {
+        return ["MockData1", "MockData2"]
+    }
+}
+
+// In your test case
+@MainActor func testFetchData() {
+    let mockService = MockDatabaseService()
+    DatabaseManager.shared.configure(with: mockService)
+    
+    let data = DatabaseManager.shared.fetchData()
+    //XCTAssertEqual(data, ["MockData1", "MockData2"])
+}
